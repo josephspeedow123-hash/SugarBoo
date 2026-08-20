@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Une carte pour toi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,wght@0,400;0,600;1,500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div id="envelope-wrap">
+    <div class="envelope" id="envelope">
+      <div class="body-left"></div>
+      <div class="body-right"></div>
+      <div class="flap"></div>
+      <div class="seal" id="seal-text">SB</div>
+    </div>
+    <div class="hint" id="hint-text">clique sur l'enveloppe, une surprise t'attend 🍬</div>
+  </div>
+
+  <div id="card">
+    <div class="eyebrow" id="occasion-text">Bonne journée de la copine</div>
+    <h1>Pour toi,<span class="nickname" id="nickname-text">Sugarboo</span></h1>
+    <div class="divider"></div>
+    <div class="photo-preview" id="photo-preview"><span id="photo-preview-text">Photo de la carte</span></div>
+    <div class="msg" id="msg-text"></div>
+    <div class="cube-row">
+      <div class="cube"></div><div class="cube"></div><div class="cube"></div><div class="cube"></div><div class="cube"></div>
+    </div>
+    <div class="signoff" id="signoff-text">— toujours à toi</div>
+    <div class="card-email">speedmindht@gmail.com</div>
+  </div>
+</div>
+
+<div class="credit">Créé par <strong>SPEEDMIND</strong></div>
+<div class="menu-dropdown" id="menu-dropdown">
+  <button id="menu-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu-options">Menu</button>
+  <div class="menu-options" id="menu-options" role="menu" aria-label="Menu déroulant">
+    <button type="button" class="menu-item" role="menuitem" data-action="customize">Personnaliser</button>
+    <button type="button" class="menu-item" role="menuitem" data-action="music">Activer la musique</button>
+    <button type="button" class="menu-item" role="menuitem" data-action="copy">Copier le lien</button>
+    <button type="button" class="menu-item" role="menuitem" data-action="print">Imprimer</button>
+    <button type="button" class="menu-item" role="menuitem" data-action="whatsapp">WhatsApp</button>
+    <button type="button" class="menu-item" role="menuitem" data-action="email">E-mail</button>
+  </div>
+</div>
+<div id="config-panel">
+  <h3 id="cfg-title">Personnaliser la carte</h3>
+  <label for="cfg-lang" id="cfg-lang-label">Langue</label>
+  <select id="cfg-lang">
+    <option value="fr">Français</option>
+    <option value="en">English</option>
+  </select>
+  <label for="cfg-preset" id="cfg-preset-label">Préréglage</label>
+  <select id="cfg-preset">
+    <option value="">Aucun</option>
+    <option value="noel">Noël</option>
+    <option value="saint-valentin">Saint-Valentin</option>
+    <option value="paques">Pâques</option>
+    <option value="girlfriend-day">Girlfriend Day</option>
+    <option value="boyfriend-day">Boyfriend Day</option>
+    <option value="anniversaire">Anniversaire</option>
+  </select>
+  <label for="cfg-theme" id="cfg-theme-label">Thème</label>
+  <select id="cfg-theme">
+    <option value="classic">Classique</option>
+    <option value="celebration">Fête</option>
+    <option value="romantic">Romantique</option>
+    <option value="midnight">Nocturne</option>
+  </select>
+  <label for="cfg-photo" id="cfg-photo-label">Image de fond (URL)</label>
+  <input id="cfg-photo" placeholder="https://...">
+  <label for="cfg-music-toggle" id="cfg-music-label">Musique de fond</label>
+  <button id="cfg-music-toggle" type="button">Activer la musique</button>
+  <label for="cfg-nickname" id="cfg-nickname-label">Surnom / prénom affiché</label>
+  <input id="cfg-nickname" placeholder="Sugarboo">
+  <label for="cfg-occasion" id="cfg-occasion-label">Occasion (petit texte en haut)</label>
+  <input id="cfg-occasion" placeholder="Bonne journée de la copine">
+  <label for="cfg-seal" id="cfg-seal-label">Initiales sur le cachet</label>
+  <input id="cfg-seal" placeholder="SB" maxlength="3">
+  <label for="cfg-msg" id="cfg-msg-label">Message (un paragraphe par ligne)</label>
+  <textarea id="cfg-msg" placeholder="Premier paragraphe...&#10;Deuxième paragraphe..."></textarea>
+  <label for="cfg-signoff" id="cfg-signoff-label">Signature</label>
+  <input id="cfg-signoff" placeholder="— toujours à toi">
+  <div class="action-row">
+    <button id="cfg-print" type="button">Imprimer</button>
+    <button id="cfg-copy" type="button">Copier le lien</button>
+  </div>
+  <div class="share-row">
+    <button id="cfg-whatsapp" type="button">WhatsApp</button>
+    <button id="cfg-email" type="button">E-mail</button>
+  </div>
+  <button id="cfg-generate" type="button">Générer le lien</button>
+  <div class="out" id="cfg-out"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
