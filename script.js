@@ -1,13 +1,13 @@
 const DEFAULTS = {
   nickname: "Sugarboo",
-  occasion: "Bonne journée de la copine",
+  occasion: "Exemple d’occasion spéciale",
   seal: "SB",
   msg: [
-    "Dashka, officiellement c'est \"Girlfriend Day\", mais officieusement c'est juste un prétexte de plus pour te le dire : tu es la meilleure chose qui me soit arrivée, et je ne me lasse pas de le répéter.",
-    "Tu sais qu'on n'a pas de temps à perdre — alors autant le dire sans détour : entre ton sourire, ta patience avec moi (oui, même les jours où je suis impossible) et ta manière de rendre tout plus léger, t'es clairement sucrée jusqu'à l'os. D'où le surnom, évidemment.",
-    "Merci d'être toi, merci d'être là, et merci de me supporter avec autant de style. Je t'aime, Sugarboo 🍯"
+    "Ceci est un exemple de carte Sugarboo à personnaliser.",
+    "Tu peux modifier le surnom, l’occasion, le thème, la musique et le message avant de générer et de partager le lien.",
+    "Essaie les options du menu pour créer ta propre carte."
   ].join("\n"),
-  signoff: "— toujours à toi",
+  signoff: "— Ta signature",
   theme: "classic",
   photo: "",
   music: "off",
@@ -179,13 +179,13 @@ function stopMusic(){
 const TEXTS = {
   fr: {
     title:'Une carte pour toi',
-    occasion:'Bonne journée de la copine',
+    occasion:'Exemple d’occasion spéciale',
     msg:[
-      "Dashka, officiellement c'est \"Girlfriend Day\", mais officieusement c'est juste un prétexte de plus pour te le dire : tu es la meilleure chose qui me soit arrivée, et je ne me lasse pas de le répéter.",
-      "Tu sais qu'on n'a pas de temps à perdre — alors autant le dire sans détour : entre ton sourire, ta patience avec moi (oui, même les jours où je suis impossible) et ta manière de rendre tout plus léger, t'es clairement sucrée jusqu'à l'os. D'où le surnom, évidemment.",
-      "Merci d'être toi, merci d'être là, et merci de me supporter avec autant de style. Je t'aime, Sugarboo 🍯"
+      "Ceci est un exemple de carte Sugarboo à personnaliser.",
+      "Tu peux modifier le surnom, l’occasion, le thème, la musique et le message avant de générer et de partager le lien.",
+      "Essaie les options du menu pour créer ta propre carte."
     ].join("\n"),
-    signoff:'— toujours à toi',
+    signoff:'— Ta signature',
     hint:'clique sur l\'enveloppe, une surprise t\'attend 🍬',
     edit:'Personnaliser',
     menu:'Menu',
@@ -207,13 +207,13 @@ const TEXTS = {
   },
   en: {
     title:'A card for you',
-    occasion:'Happy girlfriend day',
+    occasion:'Sample special occasion',
     msg:[
-      "Dashka, officially it\'s \"Girlfriend Day\", but really it\'s just another reason to tell you that you are the best thing that ever happened to me.",
-      "You know we don\'t have time to waste — so let me say it clearly: your smile, your patience with me (yes, even on the impossible days), and the way you make everything lighter make you truly sweet.",
-      "Thank you for being you, for being here, and for putting up with me with so much style. I love you, Sugarboo 🍯"
+      "This is a sample Sugarboo card to personalize.",
+      "You can customize the nickname, occasion, theme, music, and message before generating and sharing the link.",
+      "Try the menu options to create your own card."
     ].join("\n"),
-    signoff:'— always yours',
+    signoff:'— Your signature',
     hint:'click the envelope for a surprise 🍬',
     edit:'Customize',
     menu:'Menu',
@@ -253,6 +253,12 @@ function getParams(){
   };
 }
 
+function hasContentParams(){
+  const p = new URLSearchParams(window.location.search);
+  return ['nickname','occasion','seal','msg','signoff','theme','photo','preset']
+    .some(key => p.has(key));
+}
+
 function getStoredConfig(){
   try {
     const stored = localStorage.getItem('sugarbooConfig');
@@ -267,6 +273,22 @@ function saveConfig(state){
     localStorage.setItem('sugarbooConfig', JSON.stringify(state));
   } catch (error) {
     // ignore storage failures
+  }
+}
+
+function sanitizePhotoUrl(rawUrl){
+  if(typeof rawUrl !== 'string'){
+    return '';
+  }
+  const cleaned = rawUrl.trim().replace(/["'\\]/g, '');
+  if(!cleaned){
+    return '';
+  }
+  try {
+    const parsed = new URL(cleaned);
+    return ['http:','https:'].includes(parsed.protocol) ? parsed.toString() : '';
+  } catch (error) {
+    return '';
   }
 }
 
@@ -354,13 +376,18 @@ function render(state){
   });
 
   const photoPreview = document.getElementById('photo-preview');
-  if(values.photo){
-    photoPreview.style.backgroundImage = `url(${values.photo})`;
+  const sanitizedPhoto = sanitizePhotoUrl(values.photo);
+  if(sanitizedPhoto){
+    photoPreview.style.backgroundImage = `url("${sanitizedPhoto}")`;
     photoPreview.classList.add('has-image');
+    photoPreview.setAttribute('role', 'img');
+    photoPreview.setAttribute('aria-label', 'Photo de la carte');
     document.getElementById('photo-preview-text').style.display = 'none';
   } else {
     photoPreview.style.backgroundImage = 'none';
     photoPreview.classList.remove('has-image');
+    photoPreview.removeAttribute('role');
+    photoPreview.removeAttribute('aria-label');
     document.getElementById('photo-preview-text').style.display = 'block';
   }
 
@@ -568,18 +595,18 @@ function initInteractions(){
     }
   });
 
+  const params = new URLSearchParams(window.location.search);
   const stored = getStoredConfig();
-  const initialState = stored ? mergeState(getParams(), stored) : getParams();
+  const initialState = hasContentParams() ? getParams() : (stored ? mergeState(getParams(), stored) : getParams());
   render(initialState);
 
-  if(stored && stored.started){
+  if(stored && stored.started && !hasContentParams()){
     document.getElementById('envelope-wrap').classList.add('hide');
     document.getElementById('card').classList.add('show');
   }
 
   bindConfigEvents();
 
-  const params = new URLSearchParams(window.location.search);
   if(params.get('edit') === '1'){
     toggleConfigPanel(true);
     persistCurrentConfig();
