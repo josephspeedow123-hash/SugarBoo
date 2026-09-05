@@ -333,6 +333,17 @@ function ensureStarted(state){
 function persistCurrentConfig(){
   const params = getParams();
   const config = readConfigState();
+  const previous = getStoredConfig();
+  const state = mergeState(params, config);
+  saveConfig({
+    ...state,
+    started: previous && previous.started ? true : false
+  });
+}
+
+function markCardOpened(){
+  const params = getParams();
+  const config = readConfigState();
   const state = mergeState(params, config);
   saveConfig(ensureStarted(state));
 }
@@ -561,6 +572,7 @@ function initInteractions(){
 
   envelopeWrap.addEventListener('click', ()=>{
     envelope.classList.add('open');
+    markCardOpened();
     spawnGrains();
     setTimeout(()=>{
       envelopeWrap.classList.add('hide');
@@ -599,11 +611,6 @@ function initInteractions(){
   const stored = getStoredConfig();
   const initialState = hasContentParams() ? getParams() : (stored ? mergeState(getParams(), stored) : getParams());
   render(initialState);
-
-  if(stored && stored.started && !hasContentParams()){
-    document.getElementById('envelope-wrap').classList.add('hide');
-    document.getElementById('card').classList.add('show');
-  }
 
   bindConfigEvents();
 
