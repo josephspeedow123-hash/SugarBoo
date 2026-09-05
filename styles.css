@@ -120,8 +120,9 @@ html,body{
   left:50vw;
   top:50vh;
   z-index:3;
+  pointer-events:none;
 }
-#card.show{ opacity:1; transform:translate(-50%, -50%) scale(1); }
+#card.show{ opacity:1; transform:translate(-50%, -50%) scale(1); pointer-events:auto; }
 .eyebrow{
   font-size:13px;
   letter-spacing:3px;

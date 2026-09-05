@@ -570,7 +570,7 @@ function initInteractions(){
   const menuOptions = document.getElementById('menu-options');
   const cfgOut = document.getElementById('cfg-out');
 
-  envelopeWrap.addEventListener('click', ()=>{
+  const revealCard = ()=>{
     envelope.classList.add('open');
     markCardOpened();
     spawnGrains();
@@ -578,7 +578,10 @@ function initInteractions(){
       envelopeWrap.classList.add('hide');
       document.getElementById('card').classList.add('show');
     }, 550);
-  }, {once:true});
+  };
+
+  envelope.addEventListener('click', revealCard, {once:true});
+  envelopeWrap.addEventListener('click', revealCard, {once:true});
 
   menuToggle.addEventListener('click', (event)=>{
     event.stopPropagation();
@@ -612,6 +615,11 @@ function initInteractions(){
   const initialState = hasContentParams()
     ? getParams()
     : (stored ? mergeState(getParams(), { ...stored, started: false }) : getParams());
+
+  document.getElementById('envelope-wrap').classList.remove('hide');
+  document.getElementById('card').classList.remove('show');
+  document.getElementById('envelope').classList.remove('open');
+
   render({ ...initialState, started: false });
 
   if(stored && stored.started && !hasContentParams()){
