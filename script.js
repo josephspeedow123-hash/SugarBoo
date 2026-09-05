@@ -337,7 +337,7 @@ function persistCurrentConfig(){
   const state = mergeState(params, config);
   saveConfig({
     ...state,
-    started: previous && previous.started ? true : false
+    started: false
   });
 }
 
@@ -609,8 +609,14 @@ function initInteractions(){
 
   const params = new URLSearchParams(window.location.search);
   const stored = getStoredConfig();
-  const initialState = hasContentParams() ? getParams() : (stored ? mergeState(getParams(), stored) : getParams());
-  render(initialState);
+  const initialState = hasContentParams()
+    ? getParams()
+    : (stored ? mergeState(getParams(), { ...stored, started: false }) : getParams());
+  render({ ...initialState, started: false });
+
+  if(stored && stored.started && !hasContentParams()){
+    saveConfig({ ...stored, started: false });
+  }
 
   bindConfigEvents();
 
