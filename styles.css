@@ -268,19 +268,21 @@ h1{
 }
 
 #menu-dropdown{
-  position:fixed; bottom:14px; right:14px;
+  position:fixed; top:18px; right:18px;
   z-index:50;
 }
 
 #menu-toggle{
-  background:var(--plum);
-  color:#fff;
-  border:none;
-  padding:8px 12px;
-  border-radius:20px;
-  font-size:12px;
+  background:rgba(255,255,255,.28);
+  color:rgba(90,46,61,.9);
+  border:1px solid rgba(90,46,61,.08);
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:11px;
   cursor:pointer;
-  opacity:.95;
+  opacity:.9;
+  box-shadow:none;
+  backdrop-filter:blur(6px);
 }
 
 @media (max-width: 640px){
@@ -318,8 +320,8 @@ h1{
   }
 
   #menu-dropdown{
+    top:12px;
     right:12px;
-    bottom:12px;
   }
 
   #config-panel{
@@ -374,13 +376,13 @@ h1{
   display:none;
   position:absolute;
   right:0;
-  bottom:44px;
-  background:rgba(255,255,255,.98);
-  border:1px solid var(--gold);
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.18);
+  top:38px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(90,46,61,.06);
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(58,31,40,.08);
   overflow:hidden;
-  min-width:180px;
+  min-width:170px;
 }
 
 #menu-options.open{
